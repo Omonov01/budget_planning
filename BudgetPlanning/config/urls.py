@@ -15,8 +15,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from django.conf.urls.i18n import i18n_patterns
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Snippets API",
+        default_version='v1',
+        description="Test description",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@swaggerBlog.local"),
+        license=openapi.License(name="BSD License"),
+
+    ),
+    public=True,
+    authentication_classes=[],
+    permission_classes=[permissions.AllowAny],
+    url='http://127.0.0.1:8000/',
+    # url='http://95.46.96.96/',
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/account/', include("account.urls"))
 ]

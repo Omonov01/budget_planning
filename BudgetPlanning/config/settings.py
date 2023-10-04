@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)zto4dq0*a)kwgud#i4y)7v^z46c69w04m03bx0n=zdh+1d%2k'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     ### external library
     "phonenumber_field",
+    'rest_framework',
 
     ### internal library
     'account',
@@ -53,16 +54,32 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False
+}
+
 
 TEMPLATES = [
     {
@@ -142,16 +159,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# JAZZMIN_SETTINGS = {
-#     "site_title": "Budget_planning",
-#     "site_header": "Budget_planning",
-#     "site_brand": "Planning",
+JAZZMIN_SETTINGS = {
+    "site_title": "Budget_planning",
+    "site_header": "Budget_planning",
+    "site_brand": "Planning",
 
-#     "order_with_respect_to": ["account", "auth", ],
+    "order_with_respect_to": ["account", "auth", ],
 
-#     "icons": {
-#         "account.customuser": "fas fa-user",
-#         "auth.Group": "fas fa-users",
-#     },
-# }
+    "icons": {
+        "account.customuser": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+}
 

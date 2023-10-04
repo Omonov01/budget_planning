@@ -21,12 +21,6 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     objects = CustomUserManager()
 
     def save(self, *args, **kwargs):
-        try:
-            if kwargs['password']:
-                self.set_password(kwargs['password'])
-        except Exception:
-            pass
-        finally:
             super(CustomUser, self).save(*args, **kwargs)
 
     def __str__(self):
