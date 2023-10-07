@@ -1,10 +1,7 @@
-from django.conf import settings
 ### html filelarni render qilish
 from django.shortcuts import render
 ### userning kiritayotgan malumotlarini verifikatsiya qiladi
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 ### user so'rovlarini tekshirish uchun ishlatiladi.
 from django.middleware import csrf
 from django.db.models import Q
@@ -21,7 +18,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import filters
 
-from . import serializer
+from . import serializers
 from . import models
 
 # Create your views here.
@@ -29,14 +26,14 @@ from . import models
 class SignUpAPIView(APIView):   
     model = models.CustomUser
     permission_classes = (permissions.AllowAny,)
-    serializer_class = serializer.UserSignUpSerializer
+    serializer_class = serializers.UserSignUpSerializer
 
     def post(self, request, *args, **kwargs):
-        serializers = serializer.UserSignUpSerializer(data=request.data)
-        if serializers.is_valid():
-            serializers.save()
+        serializer = serializers.UserSignUpSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

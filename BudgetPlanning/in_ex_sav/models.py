@@ -18,4 +18,4 @@ class Expence(models.Model):
 class Savings(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, 
                              related_name="users_savings", verbose_name=_("Foydalanuvchi"))
-    expence_name = models.CharField(max_length=250, null=True, blank=True, verbose_name=_("Saqlash manbaalari"))    
+    savings_name = models.CharField(max_length=250, null=True, blank=True, verbose_name=_("Saqlash manbaalari"))    
